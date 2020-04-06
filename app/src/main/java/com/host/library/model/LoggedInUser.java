@@ -1,4 +1,4 @@
-package com.host.library.data.model;
+package com.host.library.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
