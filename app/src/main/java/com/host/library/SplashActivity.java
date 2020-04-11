@@ -10,17 +10,16 @@ import com.host.library.ui.login.LoginActivity;
 
 public class SplashActivity extends Activity {
 
-    /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_activity);
 
-        ImageView imageView = (ImageView)findViewById(R.id.iv_splash);
+        ImageView imageView = findViewById(R.id.iv_splash);
         imageView.setImageResource(R.mipmap.splash_image_foreground);
 
+        //Duration of wait
+        int SPLASH_DISPLAY_LENGTH = 2000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
