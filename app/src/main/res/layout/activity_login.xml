@@ -5,11 +5,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context=".ui.login.LoginActivity">
 
 
@@ -28,6 +29,22 @@
         android:layout_weight="4"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/password"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
@@ -35,7 +52,8 @@
             android:autofillHints=""
             android:gravity="center"
             android:hint="@string/prompt_username"
-            android:selectAllOnFocus="true" />
+            android:selectAllOnFocus="true"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/password"
@@ -58,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:textColor="@color/colorAccent"
             android:text="reset password?"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -70,21 +89,7 @@
             android:background="@drawable/button"
             android:text="@string/action_sign_in_short" />
 
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="64dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/password"
-            app:layout_constraintStart_toStartOf="@+id/password"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+
     </LinearLayout>
 
 
