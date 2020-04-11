@@ -12,22 +12,25 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.host.library.MainActivity;
 import com.host.library.R;
 import com.host.library.configs.Constants;
 import com.host.library.ui.registration.RegistrationActivity;
-import com.host.library.utils.HttpUtil;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
+public class LoginActivity extends AppCompatActivity  {
 
-public class LoginActivity extends AppCompatActivity {
+    private ProgressBar loadingProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        loadingProgressBar = findViewById(R.id.loading);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,14 +49,55 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString().trim();
                 boolean valid = validateCredentials(username, password);
                 if (valid) {
-                    loginClicked(username, password);
+                    login(username, password);
                 } else
-                    Toast.makeText(LoginActivity.this, "username/password is empty!", Toast.LENGTH_LONG).show();
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                //Complete and destroy login activity once successful
-                finish();
+                    Toast.makeText(LoginActivity.this, "Enter username and password", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void login(String username, String password){
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = Constants.login_base_url + "username=" + username + "&password=" + password;
+        JsonObjectRequest objReq = new JsonObjectRequest(Request.Method.POST, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            loadingProgressBar.setVisibility(View.VISIBLE);
+                            setLoggedInUserModel(response);
+                            //Complete and destroy login activity once successful
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } catch (JSONException e) {
+                            // If there is an error then output this to the logs.
+                            Log.e("Volley", "Invalid JSON Object.");
+                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // If there a HTTP error then add a note to our repo list.
+                        Log.e("Volley", error.toString());
+                        Toast.makeText(LoginActivity.this, "Username/Password is incorrect!!", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+        // Add the request we just defined to our request queue.
+        // The request queue will automatically handle the request as soon as it can.
+        requestQueue.add(objReq);
+    }
+
+    private void setLoggedInUserModel(JSONObject response) throws JSONException {
+        JSONObject contactDetails = response.getJSONObject("contactDetails");
+        new LoggedInUser(response.getString("username"),
+                contactDetails.getString("email"),
+                contactDetails.getString("phone")
+        );
     }
 
     private boolean validateCredentials(String username, String password) {
@@ -62,37 +106,6 @@ public class LoginActivity extends AppCompatActivity {
             flag = false;
         }
         return flag;
-    }
-
-    private void loginClicked(String username, String password) {
-        RequestParams rp = new RequestParams();
-        rp.add("username", username);
-        rp.add("password", password);
-
-        HttpUtil.post(Constants.login_base_url, rp, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // If the response is JSONObject instead of expected JSONArray
-                Log.d("asd", "---------------- this is response : " + response);
-                try {
-                    JSONObject serverResp = new JSONObject(response.toString());
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-//    private void updateUiWithUser(LoginUserView model) {
-//        String welcome = getString(R.string.welcome) + model.getDisplayName();
-//        // TODO : initiate successful logged in experience
-//        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-//    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -106,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.reg_menu_item) {
             this.startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }
