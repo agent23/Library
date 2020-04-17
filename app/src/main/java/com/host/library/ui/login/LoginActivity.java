@@ -59,13 +59,13 @@ public class LoginActivity extends AppCompatActivity  {
     private void login(String username, String password){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = Constants.login_base_url + "username=" + username + "&password=" + password;
+        loadingProgressBar.setVisibility(View.VISIBLE);
         JsonObjectRequest objReq = new JsonObjectRequest(Request.Method.POST, url,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
                         try {
-                            loadingProgressBar.setVisibility(View.VISIBLE);
                             setLoggedInUserModel(response);
                             //Complete and destroy login activity once successful
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity  {
                         // If there a HTTP error then add a note to our repo list.
                         Log.e("Volley", error.toString());
                         Toast.makeText(LoginActivity.this, "Username/Password is incorrect!!", Toast.LENGTH_LONG).show();
+                        loadingProgressBar.setVisibility(View.GONE);
                     }
                 }
         );
