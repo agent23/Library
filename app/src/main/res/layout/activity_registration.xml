@@ -14,15 +14,31 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/iv_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/todo"
-                android:src="@mipmap/splash_image_foreground" />
+                android:src="@mipmap/splash_image_foreground" />-->
+
+            <ProgressBar
+                android:id="@+id/reg_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="64dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/password"
+                app:layout_constraintStart_toStartOf="@+id/password"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
 
             <EditText
                 android:id="@+id/et_username"
@@ -33,27 +49,26 @@
                 android:gravity="center"
                 android:hint="Username"
                 android:inputType="textPersonName" />
-            f
 
-            <EditText
-                android:id="@+id/editText"
+            <!--<EditText
+                android:id="@+id/et_firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="First Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName" />-->
 
-            <EditText
-                android:id="@+id/editText2"
+            <!--<EditText
+                android:id="@+id/et_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="Last Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName" />-->
 
             <EditText
                 android:id="@+id/et_email"
@@ -75,7 +90,7 @@
                 android:inputType="phone" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -85,7 +100,7 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/et_re_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -94,15 +109,15 @@
                 android:hint="Re-Password"
                 android:inputType="textPassword" />
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Address"
-                android:inputType="textPostalAddress" />
+                android:hint="City"
+                android:inputType="textPostalAddress" />-->
 
             <Button
                 android:id="@+id/btn_register"
