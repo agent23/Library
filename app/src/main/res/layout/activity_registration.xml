@@ -17,12 +17,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-           <!-- <ImageView
+            <ImageView
                 android:id="@+id/iv_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/todo"
-                android:src="@mipmap/splash_image_foreground" />-->
+                android:src="@mipmap/splash_image_foreground" />
 
             <ProgressBar
                 android:id="@+id/reg_loading"
