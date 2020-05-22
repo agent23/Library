@@ -64,9 +64,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     private boolean fieldsNotEmpty(){
-        boolean flag = false;
+        boolean flag = true;
         if (StringUtils.isAllBlank(username, email, phone, password, rePassword)){
-            flag = true;
+            flag = false;
         }
         return flag;
     }
