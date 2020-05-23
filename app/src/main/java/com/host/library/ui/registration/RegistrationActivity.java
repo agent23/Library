@@ -2,7 +2,7 @@ package com.host.library.ui.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,8 +61,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         rePassword = et_re_password.getText().toString().trim();
     }
 
-    private void passwordMatches(String password, String rePassword){
-
+    private boolean passwordMatches(String password, String rePassword){
+        boolean flag = true;
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) != rePassword.charAt(i)){
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 
     private boolean fieldsNotEmpty(){
@@ -75,14 +84,47 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if (v.getId() == R.id.btn_register){
             loadingProgressBar.setVisibility(View.VISIBLE);
-            if (fieldsNotEmpty()){
-                initValues();
-                registerUser();
+            initValues();
+            boolean notEmpty = fieldsNotEmpty();
+
+            if (notEmpty){
+                emailPasswordValidate();
             }
             else {
                 loadingProgressBar.setVisibility(View.GONE);
                 Toast.makeText(this, "Fields MUST not be empty", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private void emailPasswordValidate() {
+        boolean passwordMatches;
+        passwordMatches = passwordMatches(password, rePassword);
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            loadingProgressBar.setVisibility(View.GONE);
+            et_email.setError("Not a valid email!");
+            et_email.requestFocus();
+        }
+
+        if (!validatePassword(password)){
+            loadingProgressBar.setVisibility(View.GONE);
+            et_password.setError("Password must be 8 or more characters and " +
+                    "contain a-zA-Z, 0-9, !@#$%&*()_+=|<>?{}");
+            et_password.requestFocus();
+        }
+
+        if (!passwordMatches){
+            loadingProgressBar.setVisibility(View.GONE);
+            et_re_password.setError("Passwords mismatch!");
+            et_re_password.requestFocus();
+        }
+
+        if (!email.equals("") &&
+                et_password.getText().toString().length() >= 8 &&
+                !et_password.getText().toString().trim().equals("")
+                && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            registerUser();
         }
     }
 
@@ -128,8 +170,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             // If there a HTTP error then add a note to our repo list.
-                            Log.e("Volley", error.toString());
-                            Toast.makeText(RegistrationActivity.this, "Something went wrong, try again!!",
+                            String response = new String(error.networkResponse.data);
+                            Toast.makeText(RegistrationActivity.this, response,
                                     Toast.LENGTH_LONG).show();
                             loadingProgressBar.setVisibility(View.GONE);
                         }
@@ -145,9 +187,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         requestQueue.add(Objects.requireNonNull(objReq));
     }
 
-   /* private void setRegisterUserView(JSONObject response) throws JSONException {
-        new RegisterUserView(response.getJSONObject("contactDetails").getString("email"),
-                response.getJSONObject("contactDetails").getString("phone"),
-                response.getString("username"));
-    }*/
+    boolean validatePassword(String password) {
+        if (password.length() >= 8) {
+            Pattern letter = Pattern.compile("[a-zA-Z]");
+            Pattern digit = Pattern.compile("[0-9]");
+            Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
+            Matcher hasLetter = letter.matcher(password);
+            Matcher hasDigit = digit.matcher(password);
+            Matcher hasSpecial = special.matcher(password);
+
+            return hasLetter.find() && hasDigit.find() && hasSpecial.find();
+        } else
+            return false;
+    }
 }
