@@ -93,10 +93,8 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
     private void setLoggedInUserModel(JSONObject response) throws JSONException {
-        JSONObject contactDetails = response.getJSONObject("contactDetails");
-        new LoggedInUser(response.getString("username"),
-                contactDetails.getString("email"),
-                contactDetails.getString("phone")
+        new LoggedInUser(response.getString("username"), response.getString("email"),
+                response.getString("phone")
         );
     }
 
