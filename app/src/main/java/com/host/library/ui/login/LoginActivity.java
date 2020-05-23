@@ -2,7 +2,6 @@ package com.host.library.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -72,7 +71,7 @@ public class LoginActivity extends AppCompatActivity  {
                             finish();
                         } catch (JSONException e) {
                             // If there is an error then output this to the logs.
-                            Log.e("Volley", "Invalid JSON Object.");
+                            loadingProgressBar.setVisibility(View.GONE);
                             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
@@ -82,8 +81,8 @@ public class LoginActivity extends AppCompatActivity  {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // If there a HTTP error then add a note to our repo list.
-                        Log.e("Volley", error.toString());
-                        Toast.makeText(LoginActivity.this, "Username/Password is incorrect!!", Toast.LENGTH_LONG).show();
+                        String errorResponse = new String(error.networkResponse.data);
+                        Toast.makeText(LoginActivity.this, errorResponse, Toast.LENGTH_LONG).show();
                         loadingProgressBar.setVisibility(View.GONE);
                     }
                 }

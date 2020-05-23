@@ -158,6 +158,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 Toast.makeText(RegistrationActivity.this,
                                         "Hello, "+response.getString("username"), Toast.LENGTH_LONG).show();
                             } catch (JSONException e) {
+                                loadingProgressBar.setVisibility(View.GONE);
                                 e.printStackTrace();
                             }
                             //Complete and destroy registration activity once successful
