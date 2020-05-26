@@ -24,6 +24,7 @@ import com.host.library.R;
 import com.host.library.configs.Constants;
 import com.host.library.ui.registration.RegistrationActivity;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity  {
                         } catch (JSONException e) {
                             // If there is an error then output this to the logs.
                             loadingProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 },
@@ -100,7 +101,7 @@ public class LoginActivity extends AppCompatActivity  {
 
     private boolean validateCredentials(String username, String password) {
         boolean flag = true;
-        if (username.trim().equals("") || username.isEmpty() || password.trim().equals("") || password.isEmpty()) {
+        if (StringUtils.isAllBlank(username, password)) {
             flag = false;
         }
         return flag;
