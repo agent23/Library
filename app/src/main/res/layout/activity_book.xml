@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".ui.book.BookActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:src="@mipmap/splash_image_foreground"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ISNB"
+            android:id="@+id/et_isbn"
+            android:gravity="center"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_title"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:hint="Title"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_author"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:hint="Author"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_publisher"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:hint="Publisher"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"/>
+
+
+        <Spinner
+            android:id="@+id/spinner_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="7dp"/>
+
+        <Button
+            android:id="@+id/btn_add_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="50dp"
+            android:background="@drawable/button"
+            android:text="@string/btn_add_book_submit" />
+    </LinearLayout>
+
+</LinearLayout>
