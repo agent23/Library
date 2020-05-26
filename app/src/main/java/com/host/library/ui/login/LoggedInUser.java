@@ -8,25 +8,25 @@ import java.io.Serializable;
 
 public class LoggedInUser implements Serializable {
 
-    private String userId;
+    private String username;
     private String email;
     private String phone;
 
     public LoggedInUser() {
     }
 
-    public LoggedInUser(String userId, String email, String phone) {
-        this.userId = userId;
+    public LoggedInUser(String username, String email, String phone) {
+        this.username = username;
         this.email = email;
         this.phone = phone;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
